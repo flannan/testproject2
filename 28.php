@@ -8,10 +8,10 @@ require_once __DIR__ . '/27.php';
 
 echo 'loading' . "\n";
 /** @noinspection SpellCheckingInspection */
-$warAndPeace = file_get_contents('Voina_I_Mir.txt');
+$warAndPeace = file_get_contents('voina-i-mir.txt');
 
 echo 'pre-processing' . "\n";
-$warAndPeace = str_replace([',', '.', '-'], '', $warAndPeace);
+$warAndPeace = str_replace([',', '.', '-','?','(',')','–'], '', $warAndPeace);
 
 echo 'calculating' . "\n";
 $wordCount = wordsCount($warAndPeace);
