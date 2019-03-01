@@ -23,5 +23,8 @@
     "psr-4": {
       "StubTests\\": "tests/"
     }
+  },
+  "require": {
+    "ext-mysqli": "*"
   }
 }
