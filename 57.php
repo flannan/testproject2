@@ -10,7 +10,7 @@
  * @param $currentPath
  *                    текущая директория
  * @param $changePath
- *                   путь для перехода
+ *                    путь для перехода
  *
  * @return string
  *               директория, в которую необходимо перейти
@@ -19,25 +19,30 @@
 function cd($currentPath, $changePath)
 {
     $relative = ($changePath[0] !== '/');
+    if ($relative) {
+        $changePath = $currentPath . '/' . $changePath;
+    }
     $directories = explode('/', $changePath);
     $processedDirectories = [];
-    if ($directories[0] === '..') {
-        $currentPath = explode('/', $currentPath);
-        array_shift($currentPath); //removing an '' element from the beginning
-        array_pop($currentPath);
-        $processedDirectories = $currentPath;
-    } elseif ($relative) {
-        $processedDirectories[] = $currentPath;
-    }
+    /**if ($directories[0] === '..') {
+     * $currentPath = explode('/', $currentPath);
+     * array_shift($currentPath); //removing an '' element from the beginning
+     * array_pop($currentPath);
+     * $processedDirectories = $currentPath;
+     * } elseif ($relative) {
+     * $processedDirectories[] = $currentPath;
+     * }*/
+
+
     foreach ($directories as $key => $directory) {
-        $nextDirectoryReturn = (array_key_exists($key + 1, $directories) && ($directories[$key + 1] === '..'));
-        if (($directory !== '.') && ($directory !== '..') && ($directory !== '') && !$nextDirectoryReturn) {
+        //$nextDirectoryReturn = (array_key_exists($key + 1, $directories) && ($directories[$key + 1] === '..'));
+        if ($directory === '..') {
+            array_pop($processedDirectories);
+        } elseif (($directory !== '.') && ($directory !== '')) {
             $processedDirectories[] = $directory;
         }
     }
     $newPath = implode('/', $processedDirectories);
-    if ((!$relative) || ($directories[0] === '..')) {
-        $newPath = '/' . $newPath;
-    }
+    $newPath = '/' . $newPath;
     return $newPath;
 }
